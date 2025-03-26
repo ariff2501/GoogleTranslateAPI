@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 from googletrans import Translator
+from flask_cors import CORS
 import asyncio
 
 app = Flask(__name__)
+CORS(app)
 
 async def translate_text(text, dest='en', src='auto'):
     translator = Translator()
@@ -13,6 +15,16 @@ async def translate_text(text, dest='en', src='auto'):
 @app.route('/')
 def home():
     return "Welcome to the Translation API!"
+
+@app.route('/apitest', methods=['GET'])
+def apitest():
+    # You can create a predefined object here
+    predefined_object = {
+        "message": "Welcome to the Translation API!",
+        "status": "success"
+    }
+    # Else return the predefined object
+    return jsonify(predefined_object), 200
 
 @app.route('/translate', methods=['POST'])
 def translate():
